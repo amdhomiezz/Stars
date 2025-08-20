@@ -16,33 +16,55 @@
             background-color: #f3f4f6;
             color: #1f2937;
         }
+        .bg-galaxy {
+            background-image: url('https://placehold.co/1920x1080/0d1a2f/ffffff?text=Galaxy+Background');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+        }
         .star-button, .action-button {
-            transition: transform 0.1s ease-in-out;
+            transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
         }
         .star-button:active, .action-button:active {
             transform: scale(0.95);
         }
         .text-shadow-custom {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+        }
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+        }
+        @keyframes pop-up {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .stars-pop-up {
+            animation: pop-up 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen relative overflow-hidden">
+
+    <!-- ส่วนพื้นหลังแบบเต็มหน้าจอ -->
+    <div class="absolute inset-0 bg-galaxy"></div>
 
     <!-- ส่วนหัวของแอป -->
-    <header class="text-center mb-10 w-full max-w-4xl">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-blue-700 text-shadow-custom">
+    <header class="text-center mb-10 w-full max-w-4xl relative z-10">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white text-shadow-custom">
            STARS TRACKER
         </h1>
     </header>
 
-    <main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
         <!-- ส่วนแสดงผลสำหรับหลานชายคนโต -->
-        <div id="nephew1-card" class="bg-white rounded-3xl shadow-xl p-6 md:p-8 flex flex-col items-center text-center">
+        <div id="nephew1-card" class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl card-shadow p-6 md:p-8 flex flex-col items-center text-center">
+            <img src="https://placehold.co/150x150/e2e8f0/64748b?text=SKY" alt="รูปโปรไฟล์ของ Sky" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-indigo-500 ring-offset-4 ring-offset-white">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SKY</h2>
             <div class="flex items-center justify-center mb-6">
-                <span class="text-6xl md:text-8xl mr-4">⭐</span>
-                <span id="nephew1-stars" class="text-6xl md:text-8xl font-bold text-yellow-500">0</span>
+                <span class="text-7xl md:text-9xl mr-4 text-yellow-500 drop-shadow-lg">⭐</span>
+                <span id="nephew1-stars" class="text-6xl md:text-8xl font-bold text-yellow-600 stars-pop-up">0</span>
             </div>
             <div class="flex flex-col space-y-4 mb-6 w-full items-center">
                 <!-- Inputs and buttons group -->
@@ -51,21 +73,21 @@
                     <input type="text" id="nephew1-reason-input" class="flex-grow text-center text-xl p-2 rounded-xl border border-gray-300 placeholder-gray-400" placeholder="เพิ่ม/ลดดาวเพราะอะไร">
                 </div>
                 <div class="flex flex-row space-x-4 w-full justify-center">
-                    <button id="add-nephew1" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    <button id="add-nephew1" class="star-button bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
                         เพิ่มดาว
                     </button>
-                    <button id="remove-nephew1" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    <button id="remove-nephew1" class="star-button bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
                         ลบดาว
                     </button>
                     <!-- ปุ่มแลกดาว (ตามคำขอ) -->
-                    <button id="redeem-nephew1" class="star-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    <button id="redeem-nephew1" class="star-button bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
                         แลกดาว
                     </button>
                 </div>
             </div>
             <div class="w-full">
                 <h3 class="text-xl font-semibold text-gray-700 mb-4">ประวัติการเปลี่ยนแปลงดาว</h3>
-                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200 mb-4">
+                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200 mb-4 bg-gray-50 bg-opacity-50">
                     <table class="w-full table-auto">
                         <thead class="bg-gray-100 sticky top-0">
                             <tr>
@@ -76,7 +98,6 @@
                             </tr>
                         </thead>
                         <tbody id="nephew1-history" class="divide-y divide-gray-200">
-                            <!-- ประวัติจะถูกแทรกที่นี่ด้วย JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -84,12 +105,12 @@
         </div>
 
         <!-- ส่วนแสดงผลสำหรับหลานชายคนเล็ก -->
-        <div id="nephew2-card" class="bg-white rounded-3xl shadow-xl p-6 md:p-8 flex flex-col items-center text-center">
+        <div id="nephew2-card" class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl card-shadow p-6 md:p-8 flex flex-col items-center text-center">
+            <img src="https://placehold.co/150x150/d1e5d1/2b412b?text=SHANE" alt="รูปโปรไฟล์ของ Shane" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-blue-500 ring-offset-4 ring-offset-white">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SHANE</h2>
-            <!-- เพิ่มส่วนนี้เข้าไปเพื่อให้เหมือนกับ Sky -->
             <div class="flex items-center justify-center mb-6">
-                <span class="text-6xl md:text-8xl mr-4">⭐</span>
-                <span id="nephew2-stars" class="text-6xl md:text-8xl font-bold text-yellow-500">0</span>
+                <span class="text-7xl md:text-9xl mr-4 text-yellow-500 drop-shadow-lg">⭐</span>
+                <span id="nephew2-stars" class="text-6xl md:text-8xl font-bold text-yellow-600 stars-pop-up">0</span>
             </div>
             <div class="flex flex-col space-y-4 mb-6 w-full items-center">
                 <div class="flex flex-row space-x-4 w-full justify-center items-center">
@@ -97,21 +118,21 @@
                     <input type="text" id="nephew2-reason-input" class="flex-grow text-center text-xl p-2 rounded-xl border border-gray-300 placeholder-gray-400" placeholder="เพิ่ม/ลดดาวเพราะอะไร">
                 </div>
                 <div class="flex flex-row space-x-4 w-full justify-center">
-                    <button id="add-nephew2" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    <button id="add-nephew2" class="star-button bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
                         เพิ่มดาว
                     </button>
-                    <button id="remove-nephew2" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    <button id="remove-nephew2" class="star-button bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
                         ลบดาว
                     </button>
                     <!-- ปุ่มแลกดาว (ตามคำขอ) -->
-                    <button id="redeem-nephew2" class="star-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    <button id="redeem-nephew2" class="star-button bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
                         แลกดาว
                     </button>
                 </div>
             </div>
             <div class="w-full">
                 <h3 class="text-xl font-semibold text-gray-700 mb-4">ประวัติการเปลี่ยนแปลงดาว</h3>
-                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200 mb-4">
+                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200 mb-4 bg-gray-50 bg-opacity-50">
                     <table class="w-full table-auto">
                         <thead class="bg-gray-100 sticky top-0">
                             <tr>
@@ -122,7 +143,6 @@
                             </tr>
                         </thead>
                         <tbody id="nephew2-history" class="divide-y divide-gray-200">
-                            <!-- ประวัติจะถูกแทรกที่นี่ด้วย JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -131,7 +151,7 @@
     </main>
 
     <!-- ปุ่มล้างประวัติรวม (ใหม่) -->
-    <div class="mt-8 w-full max-w-4xl text-center">
+    <div class="mt-8 w-full max-w-4xl text-center relative z-10">
         <button id="clear-all-history" class="action-button bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
             ล้างประวัติทั้งหมด
         </button>
@@ -172,7 +192,7 @@
           appId: "1:209309519458:web:55d1685bbaff8ca61e0b3b",
           measurementId: "G-5NKZXRBG9Q"
         };
-        
+
         // ฟังก์ชันสำหรับแสดงข้อความใน Modal
         function showModal(message, actionCallback = null, showInput = false) {
             const modalOverlay = document.getElementById('modal-overlay');
@@ -199,7 +219,7 @@
             modalOverlay.classList.remove('hidden');
             modalOverlay.classList.add('flex');
         }
-        
+
         // ฟังก์ชันสำหรับกำหนดค่าเริ่มต้นของ Firebase
         async function initializeFirebase() {
             try {
@@ -250,6 +270,11 @@
                     const starsElement = document.getElementById(`${nephewId}-stars`);
                     if (starsElement) {
                         starsElement.textContent = data.currentStars;
+                        // เพิ่มคลาสสำหรับ animation
+                        starsElement.classList.add('stars-pop-up');
+                        setTimeout(() => {
+                            starsElement.classList.remove('stars-pop-up');
+                        }, 300);
                     }
                 });
             }, (error) => {
