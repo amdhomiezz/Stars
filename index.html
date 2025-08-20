@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Tracker - SKY & SHANE</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for "Inter" -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .star-button {
+            transition: transform 0.1s ease-in-out;
+        }
+        .star-button:active {
+            transform: scale(0.95);
+        }
+        .text-shadow-custom {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
+
+    <!-- ส่วนหัวของแอป -->
+    <header class="text-center mb-10 w-full max-w-4xl">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-blue-700 text-shadow-custom">
+           ✨ Star Tracker - SKY & SHANE ✨
+        </h1>
+    </header>
+
+    <main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- ส่วนแสดงผลสำหรับหลานชายคนโต -->
+        <div id="nephew1-card" class="bg-white rounded-3xl shadow-xl p-6 md:p-8 flex flex-col items-center text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SKY</h2>
+            <div class="flex items-center justify-center mb-6">
+                <span class="text-6xl md:text-8xl mr-4">⭐</span>
+                <span id="nephew1-stars" class="text-6xl md:text-8xl font-bold text-yellow-500">0</span>
+            </div>
+            <div class="flex space-x-4 mb-6">
+                <input type="number" id="nephew1-input" value="1" min="1" class="w-20 text-center text-xl p-2 rounded-xl border border-gray-300">
+                <button id="add-nephew1" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    เพิ่มดาว
+                </button>
+                <button id="remove-nephew1" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    ลบดาว
+                </button>
+            </div>
+            <div class="w-full">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">ประวัติการเปลี่ยนแปลงดาว</h3>
+                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200">
+                    <table class="w-full table-auto">
+                        <thead class="bg-gray-100 sticky top-0">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">วันที่</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">การเปลี่ยนแปลง</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">รวมดาว</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nephew1-history" class="divide-y divide-gray-200">
+                            <!-- ประวัติจะถูกแทรกที่นี่ด้วย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ส่วนแสดงผลสำหรับหลานชายคนเล็ก -->
+        <div id="nephew2-card" class="bg-white rounded-3xl shadow-xl p-6 md:p-8 flex flex-col items-center text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SHANE</h2>
+            <div class="flex items-center justify-center mb-6">
+                <span class="text-6xl md:text-8xl mr-4">⭐</span>
+                <span id="nephew2-stars" class="text-6xl md:text-8xl font-bold text-yellow-500">0</span>
+            </div>
+            <div class="flex space-x-4 mb-6">
+                <input type="number" id="nephew2-input" value="1" min="1" class="w-20 text-center text-xl p-2 rounded-xl border border-gray-300">
+                <button id="add-nephew2" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    เพิ่มดาว
+                </button>
+                <button id="remove-nephew2" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    ลบดาว
+                </button>
+            </div>
+            <div class="w-full">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">ประวัติการเปลี่ยนแปลงดาว</h3>
+                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200">
+                    <table class="w-full table-auto">
+                        <thead class="bg-gray-100 sticky top-0">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">วันที่</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">การเปลี่ยนแปลง</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">รวมดาว</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nephew2-history" class="divide-y divide-gray-200">
+                            <!-- ประวัติจะถูกแทรกที่นี่ด้วย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal สำหรับข้อความแจ้งเตือน -->
+    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center">
+            <p id="modal-message" class="text-lg font-medium text-gray-800 mb-4"></p>
+            <button id="modal-close" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                ตกลง
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Global variables provided by the canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // กลับไปใช้ firebaseConfig ที่มาจาก environment เพื่อให้การยืนยันตัวตนทำงานได้ถูกต้อง
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let db, auth, userId;
+        let isAuthReady = false;
+        
+        // ฟังก์ชันสำหรับแสดงข้อความใน Modal
+        function showModal(message) {
+            document.getElementById('modal-message').textContent = message;
+            document.getElementById('modal-overlay').classList.remove('hidden');
+            document.getElementById('modal-overlay').classList.add('flex');
+        }
+        
+        document.getElementById('modal-close').addEventListener('click', () => {
+            document.getElementById('modal-overlay').classList.add('hidden');
+            document.getElementById('modal-overlay').classList.remove('flex');
+        });
+        
+        // ฟังก์ชันสำหรับกำหนดค่าเริ่มต้นของ Firebase
+        async function initializeFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+        
+                // ตรวจสอบสถานะการเข้าสู่ระบบ
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log("ผู้ใช้เข้าสู่ระบบแล้วด้วย UID:", userId);
+                        isAuthReady = true;
+                        // เริ่มการติดตามข้อมูลหลังจากเข้าสู่ระบบ
+                        await setupListeners();
+                    } else {
+                        console.log("กำลังเข้าสู่ระบบแบบไม่ระบุตัวตน...");
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการเริ่มต้น Firebase:", error);
+                showModal("เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล กรุณาลองใหม่อีกครั้ง");
+            }
+        }
+        
+        // กำหนดข้อมูลเริ่มต้นของหลานชาย
+        const nephews = [
+            { id: 'nephew1', name: 'SKY', stars: 0 },
+            { id: 'nephew2', name: 'SHANE', stars: 0 }
+        ];
+        
+        // ฟังก์ชันสำหรับตั้งค่า Firestore listeners
+        async function setupListeners() {
+            if (!isAuthReady) {
+                console.log("ยังไม่พร้อมใช้งาน auth");
+                return;
+            }
+        
+            // แก้ไข Path สำหรับเก็บข้อมูลสาธารณะให้ถูกต้องตามหลักการของ Firestore (Collection/Document/Collection...)
+            const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children`);
+        
+            // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาว
+            const unsubscribeChildren = onSnapshot(nephewsCollectionRef, (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    const data = change.doc.data();
+                    const nephewId = change.doc.id;
+                    const starsElement = document.getElementById(`${nephewId}-stars`);
+                    if (starsElement) {
+                        starsElement.textContent = data.currentStars;
+                    }
+                });
+            }, (error) => {
+                console.error("เกิดข้อผิดพลาดในการรับข้อมูลจำนวนดาว:", error);
+                showModal("เกิดข้อผิดพลาดในการอัปเดตข้อมูลดาว");
+            });
+        
+            // OnSnapshot listener สำหรับติดตามประวัติการทำธุรกรรม
+            for (const nephew of nephews) {
+                const transactionsRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children/${nephew.id}/transactions`);
+                const unsubscribeHistory = onSnapshot(transactionsRef, async (snapshot) => {
+                    const historyList = document.getElementById(`${nephew.id}-history`);
+                    historyList.innerHTML = ''; // ล้างข้อมูลเก่า
+                    
+                    const transactionsData = [];
+                    snapshot.forEach(doc => {
+                        transactionsData.push(doc.data());
+                    });
+                    
+                    // เรียงลำดับข้อมูลตามวันที่จากล่าสุดไปเก่าสุด (ในหน่วย timestamp)
+                    transactionsData.sort((a, b) => b.timestamp - a.timestamp);
+        
+                    transactionsData.forEach(transaction => {
+                        const row = document.createElement('tr');
+                        const date = new Date(transaction.timestamp).toLocaleDateString('th-TH');
+                        const starsChanged = transaction.starsAdded ? `+${transaction.starsAdded}` : `-${transaction.starsRemoved}`;
+                        const starsChangedClass = transaction.starsAdded ? 'text-green-600' : 'text-red-600';
+                        const totalStars = transaction.totalStars;
+        
+                        row.innerHTML = `
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${date}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm font-medium ${starsChangedClass}">${starsChanged}</td>
+                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-900">${totalStars}</td>
+                        `;
+                        historyList.appendChild(row);
+                    });
+                }, (error) => {
+                    console.error("เกิดข้อผิดพลาดในการรับประวัติการทำธุรกรรม:", error);
+                    showModal("เกิดข้อผิดพลาดในการโหลดประวัติ");
+                });
+            }
+        }
+        
+        // ฟังก์ชันสำหรับเพิ่มดาว
+        async function updateStars(nephewId, change) {
+            if (!isAuthReady) {
+                showModal("ยังไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณารอสักครู่");
+                return;
+            }
+        
+            const starCountInput = document.getElementById(`${nephewId}-input`);
+            let starChange = parseInt(starCountInput.value);
+            if (isNaN(starChange) || starChange <= 0) {
+                showModal("กรุณาใส่จำนวนดาวที่ถูกต้อง (มากกว่า 0)");
+                return;
+            }
+            starChange *= change; // change เป็น 1 หรือ -1
+        
+            const nephewDocRef = doc(db, `artifacts/${appId}/public/data/star_tracker_data/children`, nephewId);
+            try {
+                // อัปเดตจำนวนดาว
+                await updateDoc(nephewDocRef, {
+                    currentStars: firebase.firestore.FieldValue.increment(starChange)
+                });
+                console.log("อัปเดตจำนวนดาวสำเร็จ");
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการอัปเดตจำนวนดาว:", error);
+                // ถ้าเอกสารยังไม่มีอยู่ ให้สร้างใหม่
+                if (error.code === 'not-found') {
+                    await setDoc(nephewDocRef, {
+                        name: nephews.find(n => n.id === nephewId).name,
+                        currentStars: Math.max(0, starChange)
+                    });
+                } else {
+                    showModal(`เกิดข้อผิดพลาด: ${error.message}`);
+                    return;
+                }
+            }
+        
+            // ดึงจำนวนดาวล่าสุดเพื่อบันทึกประวัติ
+            const updatedDoc = await getDoc(nephewDocRef);
+            const totalStars = updatedDoc.data().currentStars;
+        
+            // เพิ่มประวัติการเปลี่ยนแปลงดาว
+            const transactionsRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children/${nephew.id}/transactions`);
+            const transactionData = {
+                timestamp: Date.now(),
+                totalStars: totalStars,
+            };
+            if (change > 0) {
+                transactionData.starsAdded = starChange;
+            } else {
+                transactionData.starsRemoved = -starChange;
+            }
+            await addDoc(transactionsRef, transactionData);
+        }
+        
+        // Event Listeners สำหรับปุ่ม
+        document.getElementById('add-nephew1').addEventListener('click', () => updateStars('nephew1', 1));
+        document.getElementById('remove-nephew1').addEventListener('click', () => updateStars('nephew1', -1));
+        document.getElementById('add-nephew2').addEventListener('click', () => updateStars('nephew2', 1));
+        document.getElementById('remove-nephew2').addEventListener('click', () => updateStars('nephew2', -1));
+        
+        // เริ่มต้นการทำงานของแอป
+        initializeFirebase();
+        
+    </script>
+
+</body>
+</html>
