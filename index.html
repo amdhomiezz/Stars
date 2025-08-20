@@ -126,8 +126,16 @@
         
         // Global variables provided by the canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // กลับไปใช้ firebaseConfig ที่มาจาก environment เพื่อให้การยืนยันตัวตนทำงานได้ถูกต้อง
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // ใช้ Firebase config ที่คุณให้มา
+        const firebaseConfig = {
+            apiKey: "AIzaSyCStoynDP1jBcVD0UN58OpJhAikLVkv1zc",
+            authDomain: "star-project-e3505.firebaseapp.com",
+            projectId: "star-project-e3505",
+            storageBucket: "star-project-e3505.firebasestorage.app",
+            messagingSenderId: "209309519458",
+            appId: "1:209309519458:web:55d1685bbaff8ca61e0b3b",
+            measurementId: "G-5NKZXRBG9Q"
+        };
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         
         let db, auth, userId;
