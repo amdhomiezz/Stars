@@ -141,9 +141,10 @@
 
     <!-- Firebase SDK Scripts -->
     <script type="module">
+        // Import all necessary Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, getDocs, deleteDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, getDocs, deleteDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global variables provided by the canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
