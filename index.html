@@ -189,7 +189,8 @@
                 return;
             }
         
-            const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children`);
+            // แก้ไขโครงสร้างพาธให้ถูกต้อง
+            const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/children`);
         
             // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาว
             const unsubscribeChildren = onSnapshot(nephewsCollectionRef, (snapshot) => {
@@ -208,7 +209,8 @@
         
             // OnSnapshot listener สำหรับติดตามประวัติการทำธุรกรรม
             for (const nephew of nephews) {
-                const transactionsRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children/${nephew.id}/transactions`);
+                // แก้ไขโครงสร้างพาธให้ถูกต้อง
+                const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephew.id}/transactions`);
                 const unsubscribeHistory = onSnapshot(transactionsRef, async (snapshot) => {
                     const historyList = document.getElementById(`${nephew.id}-history`);
                     historyList.innerHTML = ''; // ล้างข้อมูลเก่า
@@ -257,7 +259,8 @@
             }
             starChange *= change; // change เป็น 1 หรือ -1
         
-            const nephewDocRef = doc(db, `artifacts/${appId}/public/data/star_tracker_data/children`, nephewId);
+            // แก้ไขโครงสร้างพาธให้ถูกต้อง
+            const nephewDocRef = doc(db, `artifacts/${appId}/public/data/children`, nephewId);
             let updatedDoc;
             
             try {
@@ -288,7 +291,7 @@
             const totalStars = updatedDoc.data().currentStars;
         
             // เพิ่มประวัติการเปลี่ยนแปลงดาว
-            const transactionsRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children/${nephewId}/transactions`);
+            const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephewId}/transactions`);
             const transactionData = {
                 timestamp: Date.now(),
                 totalStars: totalStars,
