@@ -128,7 +128,7 @@
         </div>
     </main>
 
-    <!-- Modal สำหรับข้อความแจ้งเตือน (อัปเดตเพื่อรองรับการยืนยันการล้างประวัติ) -->
+    <!-- Modal สำหรับข้อความแจ้งเตือน -->
     <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center">
             <p id="modal-message" class="text-lg font-medium text-gray-800 mb-4"></p>
@@ -147,20 +147,20 @@
 
         // Global variables provided by the canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         
         let db, auth, userId;
         let isAuthReady = false;
 
-        // แก้ไขส่วนการโหลด Firebase config ให้มีความปลอดภัยมากขึ้น
-        let firebaseConfig = null;
-        try {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                firebaseConfig = JSON.parse(__firebase_config);
-            }
-        } catch (e) {
-            console.error("Error parsing Firebase config:", e);
-        }
+        // ข้อมูลการเชื่อมต่อ Firebase ที่ให้มา
+        const firebaseConfig = {
+          apiKey: "AIzaSyCStoynDP1jBcVD0UN58OpJhAikLVkv1zc",
+          authDomain: "star-project-e3505.firebaseapp.com",
+          projectId: "star-project-e3505",
+          storageBucket: "star-project-e3505.firebasestorage.app",
+          messagingSenderId: "209309519458",
+          appId: "1:209309519458:web:55d1685bbaff8ca61e0b3b",
+          measurementId: "G-5NKZXRBG9Q"
+        };
         
         // ฟังก์ชันสำหรับแสดงข้อความใน Modal
         function showModal(message, actionCallback = null, showInput = false) {
@@ -191,12 +191,6 @@
         
         // ฟังก์ชันสำหรับกำหนดค่าเริ่มต้นของ Firebase
         async function initializeFirebase() {
-            // New: Check if firebaseConfig is valid before proceeding
-            if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {
-                showModal("เกิดข้อผิดพลาด: ข้อมูลการเชื่อมต่อฐานข้อมูลไม่ถูกต้อง");
-                return;
-            }
-
             try {
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
@@ -212,11 +206,7 @@
                         await setupListeners();
                     } else {
                         console.log("กำลังเข้าสู่ระบบแบบไม่ระบุตัวตน...");
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
+                        await signInAnonymously(auth);
                     }
                 });
             } catch (error) {
