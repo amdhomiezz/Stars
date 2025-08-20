@@ -23,6 +23,8 @@
         }
         .profile-img-btn {
             cursor: pointer;
+            /* เพิ่มคุณสมบัติใหม่นี้เพื่อปรับอัตราส่วนรูปภาพ */
+            object-fit: cover;
         }
         .text-shadow-custom {
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
@@ -52,7 +54,8 @@
     <main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
         <!-- ส่วนแสดงผลสำหรับหลานชายคนโต -->
         <div id="nephew1-card" class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl card-shadow p-6 md:p-8 flex flex-col items-center text-center">
-            <img id="nephew1-img" src="https://placehold.co/150x150/e2e8f0/64748b?text=SKY" alt="รูปโปรไฟล์ของ Sky" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-indigo-500 ring-offset-4 ring-offset-white profile-img-btn">
+            <!-- ปรับรูปภาพเริ่มต้นให้เป็นอัตราส่วนที่ไม่ใช่สี่เหลี่ยมเพื่อแสดงให้เห็นการทำงานของ object-fit -->
+            <img id="nephew1-img" src="https://placehold.co/150x100/e2e8f0/64748b?text=SKY" alt="รูปโปรไฟล์ของ Sky" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-indigo-500 ring-offset-4 ring-offset-white profile-img-btn">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SKY</h2>
             <div class="flex items-center justify-center mb-6">
                 <span class="text-7xl md:text-9xl mr-4 text-yellow-500 drop-shadow-lg">⭐</span>
@@ -98,7 +101,8 @@
 
         <!-- ส่วนแสดงผลสำหรับหลานชายคนเล็ก -->
         <div id="nephew2-card" class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl card-shadow p-6 md:p-8 flex flex-col items-center text-center">
-            <img id="nephew2-img" src="https://placehold.co/150x150/d1e5d1/2b412b?text=SHANE" alt="รูปโปรไฟล์ของ Shane" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-blue-500 ring-offset-4 ring-offset-white profile-img-btn">
+            <!-- ปรับรูปภาพเริ่มต้นให้เป็นอัตราส่วนที่ไม่ใช่สี่เหลี่ยมเพื่อแสดงให้เห็นการทำงานของ object-fit -->
+            <img id="nephew2-img" src="https://placehold.co/150x100/d1e5d1/2b412b?text=SHANE" alt="รูปโปรไฟล์ของ Shane" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-blue-500 ring-offset-4 ring-offset-white profile-img-btn">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SHANE</h2>
             <div class="flex items-center justify-center mb-6">
                 <span class="text-7xl md:text-9xl mr-4 text-yellow-500 drop-shadow-lg">⭐</span>
@@ -240,12 +244,13 @@
             }
         }
         
-        // กำหนดข้อมูลเริ่มต้นของหลานชายพร้อมรูปโปรไฟล์เริ่มต้น
-        const nephews = [
-            { id: 'nephew1', name: 'SKY', stars: 0, imageUrl: "https://placehold.co/150x150/e2e8f0/64748b?text=SKY" },
-            { id: 'nephew2', name: 'SHANE', stars: 0, imageUrl: "https://placehold.co/150x150/d1e5d1/2b412b?text=SHANE" }
-        ];
-        
+        // ข้อมูลการตั้งค่าเริ่มต้นของหลานชายในรูปแบบที่เข้าถึงง่ายขึ้น
+        const nephewsData = {
+            'nephew1': { name: 'SKY', imageUrl: "https://placehold.co/150x100/e2e8f0/64748b?text=SKY" },
+            'nephew2': { name: 'SHANE', imageUrl: "https://placehold.co/150x100/d1e5d1/2b412b?text=SHANE" }
+        };
+        const nephews = Object.keys(nephewsData);
+
         // ฟังก์ชันสำหรับตั้งค่า Firestore listeners
         async function setupListeners() {
             if (!isAuthReady) {
@@ -283,12 +288,12 @@
             });
         
             // OnSnapshot listener สำหรับติดตามประวัติการทำธุรกรรม
-            for (const nephew of nephews) {
-                const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephew.id}/transactions`);
+            for (const nephewId of nephews) {
+                const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephewId}/transactions`);
                 console.log("กำลังตั้งค่า listener สำหรับประวัติธุรกรรมที่พาธ:", transactionsRef.path);
 
                 onSnapshot(transactionsRef, (snapshot) => {
-                    const historyList = document.getElementById(`${nephew.id}-history`);
+                    const historyList = document.getElementById(`${nephewId}-history`);
                     historyList.innerHTML = '';
                     
                     const transactionsData = [];
@@ -346,8 +351,7 @@
             try {
                 const currentDoc = await getDoc(nephewDocRef);
                 const currentStars = currentDoc.exists() ? currentDoc.data().currentStars : 0;
-                const currentImageUrl = currentDoc.exists() ? currentDoc.data().imageUrl : nephews.find(n => n.id === nephewId).imageUrl;
-
+                
                 if (isRedeem && (currentStars + starChange) < 0) {
                     showModal("ไม่สามารถแลกดาวได้มากกว่าจำนวนดาวที่มีอยู่");
                     return;
@@ -355,9 +359,9 @@
                 
                 if (!currentDoc.exists()) {
                     await setDoc(nephewDocRef, {
-                        name: nephews.find(n => n.id === nephewId).name,
+                        name: nephewsData[nephewId].name,
                         currentStars: Math.max(0, starChange),
-                        imageUrl: currentImageUrl
+                        imageUrl: nephewsData[nephewId].imageUrl // Set initial image URL
                     });
                 } else {
                     await updateDoc(nephewDocRef, {
@@ -407,19 +411,9 @@
             const nephewDocRef = doc(db, `artifacts/${appId}/public/data/children`, nephewId);
             
             try {
-                const currentDoc = await getDoc(nephewDocRef);
-                if (!currentDoc.exists()) {
-                    const initialData = nephews.find(n => n.id === nephewId);
-                    await setDoc(nephewDocRef, {
-                        name: initialData.name,
-                        currentStars: 0,
-                        imageUrl: imageUrl
-                    });
-                } else {
-                    await updateDoc(nephewDocRef, {
-                        imageUrl: imageUrl
-                    });
-                }
+                await updateDoc(nephewDocRef, {
+                    imageUrl: imageUrl
+                });
                 showModal("บันทึกรูปภาพเรียบร้อยแล้ว!");
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการบันทึกรูปภาพ:", error);
@@ -434,7 +428,13 @@
 
             try {
                 const currentDoc = await getDoc(nephewDocRef);
-                const currentImageUrl = currentDoc.exists() ? currentDoc.data().imageUrl : nephews.find(n => n.id === nephewId).imageUrl;
+                
+                let imageUrlToKeep;
+                if (currentDoc.exists() && currentDoc.data().imageUrl) {
+                    imageUrlToKeep = currentDoc.data().imageUrl;
+                } else {
+                    imageUrlToKeep = nephewsData[nephewId].imageUrl;
+                }
 
                 const querySnapshot = await getDocs(transactionsRef);
                 const deletePromises = [];
@@ -445,8 +445,8 @@
                 
                 await setDoc(nephewDocRef, {
                     currentStars: 0, 
-                    name: nephews.find(n => n.id === nephewId).name,
-                    imageUrl: currentImageUrl
+                    name: nephewsData[nephewId].name,
+                    imageUrl: imageUrlToKeep
                 });
             } catch (error) {
                 console.error(`เกิดข้อผิดพลาดในการล้างประวัติของ ${nephewId}:`, error);
