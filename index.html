@@ -40,7 +40,6 @@
         }
     </style>
 </head>
-<!-- Removed overflow-hidden from the body tag to allow scrolling on mobile devices -->
 <body class="bg-gray-100 p-4 md:p-8 flex flex-col items-center min-h-screen relative">
 
     <!-- ส่วนหัวของแอป -->
@@ -434,6 +433,9 @@
             const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephewId}/transactions`);
 
             try {
+                const currentDoc = await getDoc(nephewDocRef);
+                const currentImageUrl = currentDoc.exists() ? currentDoc.data().imageUrl : nephews.find(n => n.id === nephewId).imageUrl;
+
                 const querySnapshot = await getDocs(transactionsRef);
                 const deletePromises = [];
                 querySnapshot.forEach((doc) => {
@@ -441,9 +443,6 @@
                 });
                 await Promise.all(deletePromises);
                 
-                const currentDoc = await getDoc(nephewDocRef);
-                const currentImageUrl = currentDoc.exists() ? currentDoc.data().imageUrl : nephews.find(n => n.id === nephewId).imageUrl;
-
                 await setDoc(nephewDocRef, {
                     currentStars: 0, 
                     name: nephews.find(n => n.id === nephewId).name,
@@ -494,7 +493,8 @@
                     } else if (successCount > 0) {
                         showModal("ล้างประวัติบางส่วนสำเร็จ แต่บางส่วนเกิดข้อผิดพลาด:\n" + errorMessages.join("\n"));
                     } else {
-                        showModal("เกิดข้อผิดพลาดในการล้างประวัติทั้งหมด กรุณาลองใหม่อีกครั้ง");
+                        // ปรับปรุงข้อความแจ้งเตือนให้ละเอียดขึ้น
+                        showModal("เกิดข้อผิดพลาดในการล้างประวัติทั้งหมด:\n" + errorMessages.join("\n"));
                     }
 
                 } else {
