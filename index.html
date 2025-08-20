@@ -40,7 +40,8 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 p-4 md:p-8 flex flex-col items-center min-h-screen relative overflow-hidden">
+<!-- Removed overflow-hidden from the body tag to allow scrolling on mobile devices -->
+<body class="bg-gray-100 p-4 md:p-8 flex flex-col items-center min-h-screen relative">
 
     <!-- ส่วนหัวของแอป -->
     <header class="text-center mb-10 w-full max-w-4xl relative z-10">
@@ -466,16 +467,36 @@
                     document.getElementById('modal-overlay').classList.add('hidden');
                     document.getElementById('modal-overlay').classList.remove('flex');
                     
+                    let successCount = 0;
+                    let errorMessages = [];
+
+                    // พยายามล้างประวัติของ Sky (หลานชายคนที่ 1)
                     try {
                         await clearHistory('nephew1');
-                        await clearHistory('nephew2');
-                        
-                        console.log("ล้างประวัติทั้งหมดสำเร็จ");
-                        showModal("ล้างประวัติและรีเซ็ตจำนวนดาวทั้งหมดสำเร็จ");
+                        successCount++;
                     } catch (error) {
-                        console.error("เกิดข้อผิดพลาดในการล้างประวัติทั้งหมด:", error);
-                        showModal(`เกิดข้อผิดพลาดในการล้างประวัติ: ${error.message}`);
+                        errorMessages.push(`ล้างประวัติของ Sky ไม่สำเร็จ: ${error.message}`);
+                        console.error("ล้างประวัติของ Sky ไม่สำเร็จ:", error);
                     }
+        
+                    // พยายามล้างประวัติของ Shane (หลานชายคนที่ 2)
+                    try {
+                        await clearHistory('nephew2');
+                        successCount++;
+                    } catch (error) {
+                        errorMessages.push(`ล้างประวัติของ Shane ไม่สำเร็จ: ${error.message}`);
+                        console.error("ล้างประวัติของ Shane ไม่สำเร็จ:", error);
+                    }
+        
+                    // แสดงผลลัพธ์ให้ผู้ใช้ทราบตามสถานะ
+                    if (successCount === 2) {
+                        showModal("ล้างประวัติและรีเซ็ตจำนวนดาวทั้งหมดสำเร็จ");
+                    } else if (successCount > 0) {
+                        showModal("ล้างประวัติบางส่วนสำเร็จ แต่บางส่วนเกิดข้อผิดพลาด:\n" + errorMessages.join("\n"));
+                    } else {
+                        showModal("เกิดข้อผิดพลาดในการล้างประวัติทั้งหมด กรุณาลองใหม่อีกครั้ง");
+                    }
+
                 } else {
                     showModal("ยืนยันไม่ถูกต้อง. การล้างประวัติถูกยกเลิก");
                 }
