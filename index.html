@@ -122,20 +122,13 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // เพิ่ม FieldValue เพื่อใช้ในการอัปเดตข้อมูล
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, addDoc, getDoc, FieldValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // Global variables provided by the canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // ใช้ Firebase config ที่คุณให้มา
-        const firebaseConfig = {
-            apiKey: "AIzaSyCStoynDP1jBcVD0UN58OpJhAikLVkv1zc",
-            authDomain: "star-project-e3505.firebaseapp.com",
-            projectId: "star-project-e3505",
-            storageBucket: "star-project-e3505.firebasestorage.app",
-            messagingSenderId: "209309519458",
-            appId: "1:209309519458:web:55d1685bbaff8ca61e0b3b",
-            measurementId: "G-5NKZXRBG9Q"
-        };
+        // ใช้ Firebase config ที่มาจาก environment เพื่อให้การยืนยันตัวตนทำงานได้ถูกต้อง
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         
         let db, auth, userId;
@@ -196,7 +189,6 @@
                 return;
             }
         
-            // แก้ไข Path สำหรับเก็บข้อมูลสาธารณะให้ถูกต้องตามหลักการของ Firestore (Collection/Document/Collection...)
             const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children`);
         
             // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาว
@@ -266,12 +258,17 @@
             starChange *= change; // change เป็น 1 หรือ -1
         
             const nephewDocRef = doc(db, `artifacts/${appId}/public/data/star_tracker_data/children`, nephewId);
+            let updatedDoc;
+            
             try {
                 // อัปเดตจำนวนดาว
                 await updateDoc(nephewDocRef, {
-                    currentStars: firebase.firestore.FieldValue.increment(starChange)
+                    currentStars: FieldValue.increment(starChange)
                 });
                 console.log("อัปเดตจำนวนดาวสำเร็จ");
+        
+                // ดึงจำนวนดาวล่าสุดเพื่อบันทึกประวัติ
+                updatedDoc = await getDoc(nephewDocRef);
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการอัปเดตจำนวนดาว:", error);
                 // ถ้าเอกสารยังไม่มีอยู่ ให้สร้างใหม่
@@ -280,18 +277,18 @@
                         name: nephews.find(n => n.id === nephewId).name,
                         currentStars: Math.max(0, starChange)
                     });
+                    // ดึงเอกสารที่สร้างใหม่เพื่อบันทึกประวัติ
+                    updatedDoc = await getDoc(nephewDocRef);
                 } else {
                     showModal(`เกิดข้อผิดพลาด: ${error.message}`);
                     return;
                 }
             }
         
-            // ดึงจำนวนดาวล่าสุดเพื่อบันทึกประวัติ
-            const updatedDoc = await getDoc(nephewDocRef);
             const totalStars = updatedDoc.data().currentStars;
         
             // เพิ่มประวัติการเปลี่ยนแปลงดาว
-            const transactionsRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children/${nephew.id}/transactions`);
+            const transactionsRef = collection(db, `artifacts/${appId}/public/data/star_tracker_data/children/${nephewId}/transactions`);
             const transactionData = {
                 timestamp: Date.now(),
                 totalStars: totalStars,
