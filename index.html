@@ -122,17 +122,25 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // เพิ่ม FieldValue เพื่อใช้ในการอัปเดตข้อมูล
-        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, addDoc, getDoc, FieldValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
+        // แก้ไขการนำเข้า FieldValue เป็น increment โดยตรง
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, addDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         // Global variables provided by the canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // ใช้ Firebase config ที่มาจาก environment เพื่อให้การยืนยันตัวตนทำงานได้ถูกต้อง
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         
         let db, auth, userId;
         let isAuthReady = false;
+
+        // แก้ไขส่วนการโหลด Firebase config ให้มีความปลอดภัยมากขึ้น
+        let firebaseConfig = null;
+        try {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                firebaseConfig = JSON.parse(__firebase_config);
+            }
+        } catch (e) {
+            console.error("Error parsing Firebase config:", e);
+        }
         
         // ฟังก์ชันสำหรับแสดงข้อความใน Modal
         function showModal(message) {
@@ -148,6 +156,12 @@
         
         // ฟังก์ชันสำหรับกำหนดค่าเริ่มต้นของ Firebase
         async function initializeFirebase() {
+            if (!firebaseConfig) {
+                console.error("Firebase config is missing or invalid.");
+                showModal("เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล กรุณาลองใหม่อีกครั้ง");
+                return;
+            }
+
             try {
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
@@ -265,8 +279,9 @@
             
             try {
                 // อัปเดตจำนวนดาว
+                // แก้ไขการใช้งาน increment
                 await updateDoc(nephewDocRef, {
-                    currentStars: FieldValue.increment(starChange)
+                    currentStars: increment(starChange)
                 });
                 console.log("อัปเดตจำนวนดาวสำเร็จ");
         
