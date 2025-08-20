@@ -16,10 +16,10 @@
             background-color: #f3f4f6;
             color: #1f2937;
         }
-        .star-button {
+        .star-button, .action-button {
             transition: transform 0.1s ease-in-out;
         }
-        .star-button:active {
+        .star-button:active, .action-button:active {
             transform: scale(0.95);
         }
         .text-shadow-custom {
@@ -29,10 +29,10 @@
 </head>
 <body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
 
-    <!-- ส่วนหัวของแอป -->
+    <!-- ส่วนหัวของแอป (ตามคำขอ) -->
     <header class="text-center mb-10 w-full max-w-4xl">
         <h1 class="text-4xl md:text-5xl font-extrabold text-blue-700 text-shadow-custom">
-           ✨ Star Tracker - SKY & SHANE ✨
+           STARS TRACKER
         </h1>
     </header>
 
@@ -44,18 +44,24 @@
                 <span class="text-6xl md:text-8xl mr-4">⭐</span>
                 <span id="nephew1-stars" class="text-6xl md:text-8xl font-bold text-yellow-500">0</span>
             </div>
-            <div class="flex space-x-4 mb-6">
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 w-full justify-center items-center">
                 <input type="number" id="nephew1-input" value="1" min="1" class="w-20 text-center text-xl p-2 rounded-xl border border-gray-300">
-                <button id="add-nephew1" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
-                    เพิ่มดาว
-                </button>
-                <button id="remove-nephew1" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
-                    ลบดาว
-                </button>
+                <div class="flex space-x-4">
+                    <button id="add-nephew1" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                        เพิ่มดาว
+                    </button>
+                    <button id="remove-nephew1" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                        ลบดาว
+                    </button>
+                    <!-- ปุ่มแลกดาว (ตามคำขอ) -->
+                    <button id="redeem-nephew1" class="star-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                        แลกดาว
+                    </button>
+                </div>
             </div>
             <div class="w-full">
                 <h3 class="text-xl font-semibold text-gray-700 mb-4">ประวัติการเปลี่ยนแปลงดาว</h3>
-                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200">
+                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200 mb-4">
                     <table class="w-full table-auto">
                         <thead class="bg-gray-100 sticky top-0">
                             <tr>
@@ -69,6 +75,10 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- ปุ่มล้างประวัติ (ตามคำขอ) -->
+                <button id="clear-nephew1-history" class="action-button w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    ล้างประวัติ
+                </button>
             </div>
         </div>
 
@@ -79,18 +89,24 @@
                 <span class="text-6xl md:text-8xl mr-4">⭐</span>
                 <span id="nephew2-stars" class="text-6xl md:text-8xl font-bold text-yellow-500">0</span>
             </div>
-            <div class="flex space-x-4 mb-6">
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6 w-full justify-center items-center">
                 <input type="number" id="nephew2-input" value="1" min="1" class="w-20 text-center text-xl p-2 rounded-xl border border-gray-300">
-                <button id="add-nephew2" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
-                    เพิ่มดาว
-                </button>
-                <button id="remove-nephew2" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
-                    ลบดาว
-                </button>
+                <div class="flex space-x-4">
+                    <button id="add-nephew2" class="star-button bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                        เพิ่มดาว
+                    </button>
+                    <button id="remove-nephew2" class="star-button bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                        ลบดาว
+                    </button>
+                    <!-- ปุ่มแลกดาว (ตามคำขอ) -->
+                    <button id="redeem-nephew2" class="star-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                        แลกดาว
+                    </button>
+                </div>
             </div>
             <div class="w-full">
                 <h3 class="text-xl font-semibold text-gray-700 mb-4">ประวัติการเปลี่ยนแปลงดาว</h3>
-                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200">
+                <div class="overflow-y-auto max-h-60 rounded-xl border border-gray-200 mb-4">
                     <table class="w-full table-auto">
                         <thead class="bg-gray-100 sticky top-0">
                             <tr>
@@ -104,15 +120,20 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- ปุ่มล้างประวัติ (ตามคำขอ) -->
+                <button id="clear-nephew2-history" class="action-button w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full shadow-lg">
+                    ล้างประวัติ
+                </button>
             </div>
         </div>
     </main>
 
-    <!-- Modal สำหรับข้อความแจ้งเตือน -->
-    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4">
+    <!-- Modal สำหรับข้อความแจ้งเตือน (อัปเดตเพื่อรองรับการยืนยันการล้างประวัติ) -->
+    <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center">
             <p id="modal-message" class="text-lg font-medium text-gray-800 mb-4"></p>
-            <button id="modal-close" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+            <input type="text" id="modal-input" class="w-full mb-4 px-3 py-2 border rounded-lg hidden text-center" placeholder="พิมพ์ 'ล้างประวัติ' เพื่อยืนยัน">
+            <button id="modal-action-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
                 ตกลง
             </button>
         </div>
@@ -122,8 +143,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // แก้ไขการนำเข้า FieldValue เป็น increment โดยตรง
-        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, addDoc, getDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, getDocs, deleteDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global variables provided by the canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -143,16 +163,31 @@
         }
         
         // ฟังก์ชันสำหรับแสดงข้อความใน Modal
-        function showModal(message) {
-            document.getElementById('modal-message').textContent = message;
-            document.getElementById('modal-overlay').classList.remove('hidden');
-            document.getElementById('modal-overlay').classList.add('flex');
+        function showModal(message, actionCallback = null, showInput = false) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalMessage = document.getElementById('modal-message');
+            const modalInput = document.getElementById('modal-input');
+            const modalActionButton = document.getElementById('modal-action-button');
+
+            modalMessage.textContent = message;
+            modalInput.classList.toggle('hidden', !showInput);
+            modalInput.value = '';
+
+            // กำหนดปุ่มและฟังก์ชัน
+            if (actionCallback) {
+                modalActionButton.textContent = 'ยืนยัน';
+                modalActionButton.onclick = () => actionCallback(modalInput.value);
+            } else {
+                modalActionButton.textContent = 'ตกลง';
+                modalActionButton.onclick = () => {
+                    modalOverlay.classList.add('hidden');
+                    modalOverlay.classList.remove('flex');
+                };
+            }
+
+            modalOverlay.classList.remove('hidden');
+            modalOverlay.classList.add('flex');
         }
-        
-        document.getElementById('modal-close').addEventListener('click', () => {
-            document.getElementById('modal-overlay').classList.add('hidden');
-            document.getElementById('modal-overlay').classList.remove('flex');
-        });
         
         // ฟังก์ชันสำหรับกำหนดค่าเริ่มต้นของ Firebase
         async function initializeFirebase() {
@@ -203,11 +238,10 @@
                 return;
             }
         
-            // แก้ไขโครงสร้างพาธให้ถูกต้อง
             const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/children`);
         
             // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาว
-            const unsubscribeChildren = onSnapshot(nephewsCollectionRef, (snapshot) => {
+            onSnapshot(nephewsCollectionRef, (snapshot) => {
                 snapshot.docChanges().forEach((change) => {
                     const data = change.doc.data();
                     const nephewId = change.doc.id;
@@ -223,25 +257,23 @@
         
             // OnSnapshot listener สำหรับติดตามประวัติการทำธุรกรรม
             for (const nephew of nephews) {
-                // แก้ไขโครงสร้างพาธให้ถูกต้อง
                 const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephew.id}/transactions`);
-                const unsubscribeHistory = onSnapshot(transactionsRef, async (snapshot) => {
+                onSnapshot(transactionsRef, (snapshot) => {
                     const historyList = document.getElementById(`${nephew.id}-history`);
-                    historyList.innerHTML = ''; // ล้างข้อมูลเก่า
+                    historyList.innerHTML = '';
                     
                     const transactionsData = [];
                     snapshot.forEach(doc => {
                         transactionsData.push(doc.data());
                     });
                     
-                    // เรียงลำดับข้อมูลตามวันที่จากล่าสุดไปเก่าสุด (ในหน่วย timestamp)
                     transactionsData.sort((a, b) => b.timestamp - a.timestamp);
         
                     transactionsData.forEach(transaction => {
                         const row = document.createElement('tr');
                         const date = new Date(transaction.timestamp).toLocaleDateString('th-TH');
-                        const starsChanged = transaction.starsAdded ? `+${transaction.starsAdded}` : `-${transaction.starsRemoved}`;
-                        const starsChangedClass = transaction.starsAdded ? 'text-green-600' : 'text-red-600';
+                        const starsChanged = transaction.starsAdded ? `+${transaction.starsAdded}` : transaction.starsRemoved ? `-${transaction.starsRemoved}` : '0';
+                        const starsChangedClass = transaction.starsAdded ? 'text-green-600' : transaction.starsRemoved ? 'text-red-600' : 'text-gray-500';
                         const totalStars = transaction.totalStars;
         
                         row.innerHTML = `
@@ -258,8 +290,8 @@
             }
         }
         
-        // ฟังก์ชันสำหรับเพิ่มดาว
-        async function updateStars(nephewId, change) {
+        // ฟังก์ชันสำหรับเพิ่ม/ลดดาว
+        async function updateStars(nephewId, change, isRedeem = false) {
             if (!isAuthReady) {
                 showModal("ยังไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณารอสักครู่");
                 return;
@@ -273,29 +305,36 @@
             }
             starChange *= change; // change เป็น 1 หรือ -1
         
-            // แก้ไขโครงสร้างพาธให้ถูกต้อง
             const nephewDocRef = doc(db, `artifacts/${appId}/public/data/children`, nephewId);
             let updatedDoc;
             
             try {
-                // อัปเดตจำนวนดาว
-                // แก้ไขการใช้งาน increment
+                // ดึงข้อมูลปัจจุบันเพื่อตรวจสอบจำนวนดาวที่มีอยู่
+                const currentDoc = await getDoc(nephewDocRef);
+                const currentStars = currentDoc.exists() ? currentDoc.data().currentStars : 0;
+
+                if (isRedeem && (currentStars + starChange) < 0) {
+                    showModal("ไม่สามารถแลกดาวได้มากกว่าจำนวนดาวที่มีอยู่");
+                    return;
+                }
+
                 await updateDoc(nephewDocRef, {
                     currentStars: increment(starChange)
                 });
                 console.log("อัปเดตจำนวนดาวสำเร็จ");
         
-                // ดึงจำนวนดาวล่าสุดเพื่อบันทึกประวัติ
                 updatedDoc = await getDoc(nephewDocRef);
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการอัปเดตจำนวนดาว:", error);
-                // ถ้าเอกสารยังไม่มีอยู่ ให้สร้างใหม่
                 if (error.code === 'not-found') {
+                    if (isRedeem) {
+                        showModal("ไม่สามารถแลกดาวได้เนื่องจากไม่มีข้อมูลดาวอยู่เลย");
+                        return;
+                    }
                     await setDoc(nephewDocRef, {
                         name: nephews.find(n => n.id === nephewId).name,
                         currentStars: Math.max(0, starChange)
                     });
-                    // ดึงเอกสารที่สร้างใหม่เพื่อบันทึกประวัติ
                     updatedDoc = await getDoc(nephewDocRef);
                 } else {
                     showModal(`เกิดข้อผิดพลาด: ${error.message}`);
@@ -305,7 +344,6 @@
         
             const totalStars = updatedDoc.data().currentStars;
         
-            // เพิ่มประวัติการเปลี่ยนแปลงดาว
             const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephewId}/transactions`);
             const transactionData = {
                 timestamp: Date.now(),
@@ -318,16 +356,62 @@
             }
             await addDoc(transactionsRef, transactionData);
         }
+
+        // ฟังก์ชันสำหรับล้างประวัติ
+        async function clearHistory(nephewId) {
+            if (!isAuthReady) {
+                showModal("ยังไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณารอสักครู่");
+                return;
+            }
+            
+            // แสดง modal ยืนยัน
+            showModal("การดำเนินการนี้จะล้างประวัติทั้งหมด\nกรุณาพิมพ์ 'ล้างประวัติ' เพื่อยืนยัน", async (inputValue) => {
+                if (inputValue === 'ล้างประวัติ') {
+                    // ปิด modal
+                    document.getElementById('modal-overlay').classList.add('hidden');
+                    document.getElementById('modal-overlay').classList.remove('flex');
+                    
+                    const nephewDocRef = doc(db, `artifacts/${appId}/public/data/children`, nephewId);
+                    const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephewId}/transactions`);
+
+                    try {
+                        // ลบเอกสารทั้งหมดใน sub-collection transactions
+                        const querySnapshot = await getDocs(transactionsRef);
+                        const deletePromises = [];
+                        querySnapshot.forEach((doc) => {
+                            deletePromises.push(deleteDoc(doc.ref));
+                        });
+                        await Promise.all(deletePromises);
+                        
+                        // รีเซ็ตจำนวนดาวในเอกสารหลักเป็น 0
+                        await setDoc(nephewDocRef, { currentStars: 0, name: nephews.find(n => n.id === nephewId).name });
+                        
+                        console.log("ล้างประวัติสำเร็จ");
+                        showModal("ล้างประวัติและรีเซ็ตจำนวนดาวสำเร็จ");
+                    } catch (error) {
+                        console.error("เกิดข้อผิดพลาดในการล้างประวัติ:", error);
+                        showModal(`เกิดข้อผิดพลาดในการล้างประวัติ: ${error.message}`);
+                    }
+                } else {
+                    showModal("ยืนยันไม่ถูกต้อง. การล้างประวัติถูกยกเลิก");
+                }
+            }, true); // showInput เป็น true
+        }
         
         // Event Listeners สำหรับปุ่ม
         document.getElementById('add-nephew1').addEventListener('click', () => updateStars('nephew1', 1));
         document.getElementById('remove-nephew1').addEventListener('click', () => updateStars('nephew1', -1));
+        document.getElementById('redeem-nephew1').addEventListener('click', () => updateStars('nephew1', -1, true));
         document.getElementById('add-nephew2').addEventListener('click', () => updateStars('nephew2', 1));
         document.getElementById('remove-nephew2').addEventListener('click', () => updateStars('nephew2', -1));
+        document.getElementById('redeem-nephew2').addEventListener('click', () => updateStars('nephew2', -1, true));
+
+        // Event Listeners สำหรับปุ่มล้างประวัติ
+        document.getElementById('clear-nephew1-history').addEventListener('click', () => clearHistory('nephew1'));
+        document.getElementById('clear-nephew2-history').addEventListener('click', () => clearHistory('nephew2'));
         
         // เริ่มต้นการทำงานของแอป
         initializeFirebase();
-        
     </script>
 
 </body>
