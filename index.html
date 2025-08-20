@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Tracker - SKY & SHANE</title>
+    <title>STARS TRACKER</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for "Inter" -->
@@ -29,7 +29,7 @@
 </head>
 <body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
 
-    <!-- ส่วนหัวของแอป (ตามคำขอ) -->
+    <!-- ส่วนหัวของแอป -->
     <header class="text-center mb-10 w-full max-w-4xl">
         <h1 class="text-4xl md:text-5xl font-extrabold text-blue-700 text-shadow-custom">
            STARS TRACKER
@@ -191,9 +191,9 @@
         
         // ฟังก์ชันสำหรับกำหนดค่าเริ่มต้นของ Firebase
         async function initializeFirebase() {
-            if (!firebaseConfig) {
-                console.error("Firebase config is missing or invalid.");
-                showModal("เกิดข้อผิดพลาดในการเชื่อมต่อกับฐานข้อมูล กรุณาลองใหม่อีกครั้ง");
+            // New: Check if firebaseConfig is valid before proceeding
+            if (!firebaseConfig || Object.keys(firebaseConfig).length === 0) {
+                showModal("เกิดข้อผิดพลาด: ข้อมูลการเชื่อมต่อฐานข้อมูลไม่ถูกต้อง");
                 return;
             }
 
