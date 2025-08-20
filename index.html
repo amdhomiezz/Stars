@@ -229,6 +229,7 @@
             }
         
             const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/children`);
+            console.log("กำลังตั้งค่า listener สำหรับจำนวนดาวที่พาธ:", nephewsCollectionRef.path);
         
             // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาว
             onSnapshot(nephewsCollectionRef, (snapshot) => {
@@ -241,13 +242,16 @@
                     }
                 });
             }, (error) => {
+                // แก้ไข: เพิ่มการจัดการข้อผิดพลาดเพื่อแสดงข้อมูลเพิ่มเติม
                 console.error("เกิดข้อผิดพลาดในการรับข้อมูลจำนวนดาว:", error);
-                showModal("เกิดข้อผิดพลาดในการอัปเดตข้อมูลดาว");
+                showModal("เกิดข้อผิดพลาดในการอัปเดตข้อมูลดาว: " + error.message);
             });
         
             // OnSnapshot listener สำหรับติดตามประวัติการทำธุรกรรม
             for (const nephew of nephews) {
                 const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephew.id}/transactions`);
+                console.log("กำลังตั้งค่า listener สำหรับประวัติธุรกรรมที่พาธ:", transactionsRef.path);
+
                 onSnapshot(transactionsRef, (snapshot) => {
                     const historyList = document.getElementById(`${nephew.id}-history`);
                     historyList.innerHTML = '';
@@ -275,7 +279,7 @@
                     });
                 }, (error) => {
                     console.error("เกิดข้อผิดพลาดในการรับประวัติการทำธุรกรรม:", error);
-                    showModal("เกิดข้อผิดพลาดในการโหลดประวัติ");
+                    showModal("เกิดข้อผิดพลาดในการโหลดประวัติ: " + error.message);
                 });
             }
         }
