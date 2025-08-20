@@ -13,21 +13,16 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
             color: #1f2937;
         }
-        .bg-galaxy {
-            background-image: url('https://placehold.co/1920x1080/0d1a2f/ffffff?text=Galaxy+Background');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            z-index: -1;
-        }
-        .star-button, .action-button {
+        .star-button, .action-button, .profile-img-btn {
             transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
         }
-        .star-button:active, .action-button:active {
+        .star-button:active, .action-button:active, .profile-img-btn:active {
             transform: scale(0.95);
+        }
+        .profile-img-btn {
+            cursor: pointer;
         }
         .text-shadow-custom {
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
@@ -45,14 +40,11 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center min-h-screen relative overflow-hidden">
-
-    <!-- ส่วนพื้นหลังแบบเต็มหน้าจอ -->
-    <div class="absolute inset-0 bg-galaxy"></div>
+<body class="bg-gray-100 p-4 md:p-8 flex flex-col items-center min-h-screen relative overflow-hidden">
 
     <!-- ส่วนหัวของแอป -->
     <header class="text-center mb-10 w-full max-w-4xl relative z-10">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-white text-shadow-custom">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 text-shadow-custom">
            STARS TRACKER
         </h1>
     </header>
@@ -60,7 +52,7 @@
     <main class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
         <!-- ส่วนแสดงผลสำหรับหลานชายคนโต -->
         <div id="nephew1-card" class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl card-shadow p-6 md:p-8 flex flex-col items-center text-center">
-            <img src="https://placehold.co/150x150/e2e8f0/64748b?text=SKY" alt="รูปโปรไฟล์ของ Sky" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-indigo-500 ring-offset-4 ring-offset-white">
+            <img id="nephew1-img" src="https://placehold.co/150x150/e2e8f0/64748b?text=SKY" alt="รูปโปรไฟล์ของ Sky" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-indigo-500 ring-offset-4 ring-offset-white profile-img-btn">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SKY</h2>
             <div class="flex items-center justify-center mb-6">
                 <span class="text-7xl md:text-9xl mr-4 text-yellow-500 drop-shadow-lg">⭐</span>
@@ -106,7 +98,7 @@
 
         <!-- ส่วนแสดงผลสำหรับหลานชายคนเล็ก -->
         <div id="nephew2-card" class="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-3xl card-shadow p-6 md:p-8 flex flex-col items-center text-center">
-            <img src="https://placehold.co/150x150/d1e5d1/2b412b?text=SHANE" alt="รูปโปรไฟล์ของ Shane" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-blue-500 ring-offset-4 ring-offset-white">
+            <img id="nephew2-img" src="https://placehold.co/150x150/d1e5d1/2b412b?text=SHANE" alt="รูปโปรไฟล์ของ Shane" class="w-24 h-24 md:w-32 md:h-32 rounded-full mb-4 ring-4 ring-blue-500 ring-offset-4 ring-offset-white profile-img-btn">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">SHANE</h2>
             <div class="flex items-center justify-center mb-6">
                 <span class="text-7xl md:text-9xl mr-4 text-yellow-500 drop-shadow-lg">⭐</span>
@@ -161,7 +153,7 @@
     <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm text-center">
             <p id="modal-message" class="text-lg font-medium text-gray-800 mb-4"></p>
-            <input type="text" id="modal-input" class="w-full mb-4 px-3 py-2 border rounded-lg hidden text-center" placeholder="พิมพ์ 'ล้างประวัติ' เพื่อยืนยัน">
+            <input type="text" id="modal-input" class="w-full mb-4 px-3 py-2 border rounded-lg hidden text-center" placeholder="วาง URL รูปภาพที่นี่">
             <button id="modal-action-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
                 ตกลง
             </button>
@@ -171,7 +163,6 @@
     <!-- Firebase SDK Scripts -->
     <script type="module">
         // Import all necessary Firebase functions
-        // แก้ไข: เพิ่ม addDoc เข้ามาในรายการ import
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, setDoc, updateDoc, collection, getDocs, deleteDoc, increment, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -194,7 +185,7 @@
         };
 
         // ฟังก์ชันสำหรับแสดงข้อความใน Modal
-        function showModal(message, actionCallback = null, showInput = false) {
+        function showModal(message, actionCallback = null, showInput = false, inputPlaceholder = "") {
             const modalOverlay = document.getElementById('modal-overlay');
             const modalMessage = document.getElementById('modal-message');
             const modalInput = document.getElementById('modal-input');
@@ -203,6 +194,9 @@
             modalMessage.textContent = message;
             modalInput.classList.toggle('hidden', !showInput);
             modalInput.value = '';
+            if (inputPlaceholder) {
+                modalInput.placeholder = inputPlaceholder;
+            }
 
             // กำหนดปุ่มและฟังก์ชัน
             if (actionCallback) {
@@ -246,10 +240,10 @@
             }
         }
         
-        // กำหนดข้อมูลเริ่มต้นของหลานชาย
+        // กำหนดข้อมูลเริ่มต้นของหลานชายพร้อมรูปโปรไฟล์เริ่มต้น
         const nephews = [
-            { id: 'nephew1', name: 'SKY', stars: 0 },
-            { id: 'nephew2', name: 'SHANE', stars: 0 }
+            { id: 'nephew1', name: 'SKY', stars: 0, imageUrl: "https://placehold.co/150x150/e2e8f0/64748b?text=SKY" },
+            { id: 'nephew2', name: 'SHANE', stars: 0, imageUrl: "https://placehold.co/150x150/d1e5d1/2b412b?text=SHANE" }
         ];
         
         // ฟังก์ชันสำหรับตั้งค่า Firestore listeners
@@ -262,12 +256,14 @@
             const nephewsCollectionRef = collection(db, `artifacts/${appId}/public/data/children`);
             console.log("กำลังตั้งค่า listener สำหรับจำนวนดาวที่พาธ:", nephewsCollectionRef.path);
         
-            // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาว
+            // OnSnapshot listener สำหรับติดตามการเปลี่ยนแปลงของจำนวนดาวและรูปภาพ
             onSnapshot(nephewsCollectionRef, (snapshot) => {
                 snapshot.docChanges().forEach((change) => {
                     const data = change.doc.data();
                     const nephewId = change.doc.id;
                     const starsElement = document.getElementById(`${nephewId}-stars`);
+                    const imgElement = document.getElementById(`${nephewId}-img`);
+
                     if (starsElement) {
                         starsElement.textContent = data.currentStars;
                         // เพิ่มคลาสสำหรับ animation
@@ -276,9 +272,12 @@
                             starsElement.classList.remove('stars-pop-up');
                         }, 300);
                     }
+
+                    if (imgElement && data.imageUrl) {
+                        imgElement.src = data.imageUrl;
+                    }
                 });
             }, (error) => {
-                // แก้ไข: เพิ่มการจัดการข้อผิดพลาดเพื่อแสดงข้อมูลเพิ่มเติม
                 console.error("เกิดข้อผิดพลาดในการรับข้อมูลจำนวนดาว:", error);
                 showModal("เกิดข้อผิดพลาดในการอัปเดตข้อมูลดาว: " + error.message);
             });
@@ -305,7 +304,7 @@
                         const starsChanged = transaction.starsAdded ? `+${transaction.starsAdded}` : transaction.starsRemoved ? `-${transaction.starsRemoved}` : '0';
                         const starsChangedClass = transaction.starsAdded ? 'text-green-600' : transaction.starsRemoved ? 'text-red-600' : 'text-gray-500';
                         const totalStars = transaction.totalStars;
-                        const reason = transaction.reason || ''; // เพิ่มเหตุผล, หากไม่มีจะแสดงเป็นสตริงว่าง
+                        const reason = transaction.reason || '';
 
                         row.innerHTML = `
                             <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">${date}</td>
@@ -339,26 +338,26 @@
                 return;
             }
 
-            starChange *= change; // change เป็น 1 หรือ -1
+            starChange *= change;
         
             const nephewDocRef = doc(db, `artifacts/${appId}/public/data/children`, nephewId);
             let updatedDoc;
             
             try {
-                // ดึงข้อมูลปัจจุบันเพื่อตรวจสอบจำนวนดาวที่มีอยู่
                 const currentDoc = await getDoc(nephewDocRef);
                 const currentStars = currentDoc.exists() ? currentDoc.data().currentStars : 0;
+                const currentImageUrl = currentDoc.exists() ? currentDoc.data().imageUrl : nephews.find(n => n.id === nephewId).imageUrl;
 
                 if (isRedeem && (currentStars + starChange) < 0) {
                     showModal("ไม่สามารถแลกดาวได้มากกว่าจำนวนดาวที่มีอยู่");
                     return;
                 }
                 
-                // แก้ไข: ใช้ setDoc หากเอกสารไม่มีอยู่
                 if (!currentDoc.exists()) {
                     await setDoc(nephewDocRef, {
                         name: nephews.find(n => n.id === nephewId).name,
-                        currentStars: Math.max(0, starChange)
+                        currentStars: Math.max(0, starChange),
+                        imageUrl: currentImageUrl
                     });
                 } else {
                     await updateDoc(nephewDocRef, {
@@ -381,7 +380,7 @@
             const transactionData = {
                 timestamp: Date.now(),
                 totalStars: totalStars,
-                reason: reason // เพิ่มเหตุผลลงในข้อมูลธุรกรรม
+                reason: reason
             };
             if (change > 0) {
                 transactionData.starsAdded = starChange;
@@ -390,8 +389,42 @@
             }
             await addDoc(transactionsRef, transactionData);
 
-            // ล้างช่องป้อนเหตุผลหลังจากอัปเดตสำเร็จ
             reasonInput.value = '';
+        }
+
+        // ฟังก์ชันใหม่สำหรับบันทึก URL รูปภาพ
+        async function updateProfileImage(nephewId, imageUrl) {
+            if (!isAuthReady) {
+                showModal("ยังไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณารอสักครู่");
+                return;
+            }
+
+            if (!imageUrl) {
+                showModal("กรุณาใส่ URL ของรูปภาพ");
+                return;
+            }
+            
+            const nephewDocRef = doc(db, `artifacts/${appId}/public/data/children`, nephewId);
+            
+            try {
+                const currentDoc = await getDoc(nephewDocRef);
+                if (!currentDoc.exists()) {
+                    const initialData = nephews.find(n => n.id === nephewId);
+                    await setDoc(nephewDocRef, {
+                        name: initialData.name,
+                        currentStars: 0,
+                        imageUrl: imageUrl
+                    });
+                } else {
+                    await updateDoc(nephewDocRef, {
+                        imageUrl: imageUrl
+                    });
+                }
+                showModal("บันทึกรูปภาพเรียบร้อยแล้ว!");
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการบันทึกรูปภาพ:", error);
+                showModal("ไม่สามารถบันทึกรูปภาพได้ กรุณาตรวจสอบ URL และลองใหม่อีกครั้ง");
+            }
         }
 
         // ฟังก์ชันสำหรับล้างประวัติของหลานชายคนเดียว
@@ -400,7 +433,6 @@
             const transactionsRef = collection(db, `artifacts/${appId}/public/data/children/${nephewId}/transactions`);
 
             try {
-                // ลบเอกสารทั้งหมดใน sub-collection transactions
                 const querySnapshot = await getDocs(transactionsRef);
                 const deletePromises = [];
                 querySnapshot.forEach((doc) => {
@@ -408,11 +440,17 @@
                 });
                 await Promise.all(deletePromises);
                 
-                // รีเซ็ตจำนวนดาวในเอกสารหลักเป็น 0
-                await setDoc(nephewDocRef, { currentStars: 0, name: nephews.find(n => n.id === nephewId).name });
+                const currentDoc = await getDoc(nephewDocRef);
+                const currentImageUrl = currentDoc.exists() ? currentDoc.data().imageUrl : nephews.find(n => n.id === nephewId).imageUrl;
+
+                await setDoc(nephewDocRef, {
+                    currentStars: 0, 
+                    name: nephews.find(n => n.id === nephewId).name,
+                    imageUrl: currentImageUrl
+                });
             } catch (error) {
                 console.error(`เกิดข้อผิดพลาดในการล้างประวัติของ ${nephewId}:`, error);
-                throw error; // ส่งต่อข้อผิดพลาดเพื่อจัดการในฟังก์ชันหลัก
+                throw error;
             }
         }
         
@@ -423,15 +461,12 @@
                 return;
             }
             
-            // แสดง modal ยืนยัน
             showModal("การดำเนินการนี้จะล้างประวัติและรีเซ็ตจำนวนดาวทั้งหมดสำหรับหลานชายทุกคน\nกรุณาพิมพ์ 'ล้างประวัติ' เพื่อยืนยัน", async (inputValue) => {
                 if (inputValue === 'ล้างประวัติ') {
-                    // ปิด modal
                     document.getElementById('modal-overlay').classList.add('hidden');
                     document.getElementById('modal-overlay').classList.remove('flex');
                     
                     try {
-                        // ล้างประวัติของหลานชายแต่ละคน
                         await clearHistory('nephew1');
                         await clearHistory('nephew2');
                         
@@ -444,16 +479,24 @@
                 } else {
                     showModal("ยืนยันไม่ถูกต้อง. การล้างประวัติถูกยกเลิก");
                 }
-            }, true); // showInput เป็น true
+            }, true, "พิมพ์ 'ล้างประวัติ' เพื่อยืนยัน");
         }
 
-        // Event Listeners สำหรับปุ่ม
+        // Event Listeners สำหรับปุ่มและรูปภาพ
         document.getElementById('add-nephew1').addEventListener('click', () => updateStars('nephew1', 1));
         document.getElementById('remove-nephew1').addEventListener('click', () => updateStars('nephew1', -1));
         document.getElementById('redeem-nephew1').addEventListener('click', () => updateStars('nephew1', -1, true));
         document.getElementById('add-nephew2').addEventListener('click', () => updateStars('nephew2', 1));
         document.getElementById('remove-nephew2').addEventListener('click', () => updateStars('nephew2', -1));
         document.getElementById('redeem-nephew2').addEventListener('click', () => updateStars('nephew2', -1, true));
+        
+        // Event Listener สำหรับการคลิกที่รูปโปรไฟล์
+        document.getElementById('nephew1-img').addEventListener('click', () => {
+            showModal("กรุณาวาง URL ของรูปภาพใหม่", (inputValue) => updateProfileImage('nephew1', inputValue), true, "วาง URL รูปภาพที่นี่");
+        });
+        document.getElementById('nephew2-img').addEventListener('click', () => {
+            showModal("กรุณาวาง URL ของรูปภาพใหม่", (inputValue) => updateProfileImage('nephew2', inputValue), true, "วาง URL รูปภาพที่นี่");
+        });
         
         // Event Listener สำหรับปุ่มล้างประวัติรวม
         document.getElementById('clear-all-history').addEventListener('click', clearAllHistory);
